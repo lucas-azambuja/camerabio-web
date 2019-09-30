@@ -11,7 +11,9 @@ Estas instruções farão com que você consiga implementar a câmera com engenh
 A instalação e implementação de nossa ferramente é muito simples e em poucos passos o seu frame está pronto para ser utilizado. 
 
 - Adicione o nosso projeto a sua maquina através de um Git clone ou download do mesmo. 
-
+- Escolha uma das versões que deseja implementar. 
+  - web: para landscape e indicado para e dashboards. 
+  - mob: para frame adaptado a dispositivos móveis.
 - Vamos fornecer um caminho de pasta para o carregamento de nossos arquivos de modelos. Para isto, abra o arquivo frame.js e procure pela linha:
 
 ```
