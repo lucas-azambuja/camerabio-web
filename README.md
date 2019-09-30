@@ -21,21 +21,6 @@ A instalação e implementação de nossa ferramente é muito simples e em pouco
 
 Pronto! O seu projeto já está pronto para o uso de nossa ferramenta. 
 
-
-E o retorno: 
-
-```
- @Override
- public void onSuccessCaptureDocument(String base64) {
-  // Aqui está o base64 da captura    
- }
-
-@Override
-public void onFailedCaptureDocument(String description) {
-  // Algo deu errado
-}
-```
-
 ## Construido com
 
 * [face-api.js](https://github.com/justadudewhohacks/face-api.js) - Framework de análise bimétrica.
