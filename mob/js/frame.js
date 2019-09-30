@@ -54,9 +54,9 @@ var isEnableCapture = false;
 
 var isValidateLight;
 
-
 var MINIMUM_BRIGHTNESS = 80;
 
+var onSuccessCapture;
 
 function detectar_mobile() {
     if (navigator.userAgent.match(/Android/i)
@@ -803,7 +803,7 @@ window.onload = function () {
 
                 var base64 = canvas.toDataURL("image/jpeg");
                 
-                console.log(base64);
+                onSuccessCapture(base64);
 
             }
 
