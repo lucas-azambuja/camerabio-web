@@ -48,7 +48,6 @@ var isRunning = true;
 
 var isCaptureBackground;
 
-var backToDefaultFrame;
 
 var isEnableCapture = false;
 
@@ -56,7 +55,11 @@ var isValidateLight;
 
 var MINIMUM_BRIGHTNESS = 80;
 
-var onSuccessCapture;
+var onSuccessCaptureAtFrame;
+
+var oldCurrentTime;
+var isShowAlertToComeBack = false;
+var countToOldFrame = 0;
 
 function detectar_mobile() {
     if (navigator.userAgent.match(/Android/i)
@@ -94,14 +97,42 @@ window.onload = function () {
     var btnCamera = document.getElementById('btnCamera');
     var video = document.getElementById('video');
     var spin = document.getElementById('spin');
+    var deviceRotated = document.getElementById('deviceRotated');
 
     // btnCamera.style.bottom = '20px';
-
 
     Promise.all([
         faceapi.nets.tinyFaceDetector.loadFromUri('/mob/models'),
         // faceapi.nets.faceRecognitionNet.loadFromUri('/models'),
     ]).then(startVideo)
+
+
+    window.addEventListener("orientationchange", function () {
+
+        if ((screen.orientation != null ? screen.orientation.angle : Math.abs(window.orientation)) != 0) {
+            // Landscape
+
+            stopCountdown();
+            deviceRotated.style.display = 'block';
+
+        } else {
+            // Portrait
+
+        }
+
+    });
+
+
+    function stopCountdown() {
+
+        countdown = 3;
+        lbCountdown.style.display = 'none';
+        lbCountdown.innerText = countdown;
+        clearInterval(intervalCountdown);
+        isCountdown = false;
+        countSuccess = 0;
+
+    }
 
 
     function startVideo() {
@@ -156,8 +187,6 @@ window.onload = function () {
             catch (err) {
 
                 console.log(err);
-                spin.style.display = 'none';
-                stopProcess();
                 backToDefaultFrame();
 
             }
@@ -247,6 +276,7 @@ window.onload = function () {
                     try {
                         faceapi.detectSingleFace(video, new faceapi.TinyFaceDetectorOptions({ inputSize: 160, scoreThreshold: 0.3 })).then(detection => {
 
+                            validatePerformance();
 
                             isAllow = true;
                             if (detection) {
@@ -289,9 +319,7 @@ window.onload = function () {
                         })
                     }
                     catch (err) {
-                        stopProcess();
                         backToDefaultFrame();
-                        spin.style.display = 'none';
                     }
 
 
@@ -306,19 +334,16 @@ window.onload = function () {
     }
 
     function stopProcess() {
-        //  console.log = (err.message);
-        //  maskDefault.style.display = 'block';
-        // icTakeWeb.style.opacity = '1.0';
+        oldCurrentTime = null; 
         isRunning = false;
         showNeutral();
         clearInterval(intervalCountdown);
         clearInterval(intervalVideo);
     }
 
-
     function validateBioMob(box, boxWidth, boxHeight, boxSideLeft, boxSideTop) {
-        
-     
+
+
         if (detectIphoneHigLevel(platform.ua)) {
 
             if ((boxWidth - 150) > ((screenWidth / 5) * 4)) {
@@ -418,11 +443,11 @@ window.onload = function () {
         }
 
 
-          validateLight(box);
+        validateLight(box);
 
-          if (!isValidateLight) {
-              return;
-          } 
+        if (!isValidateLight) {
+            return;
+        }
 
         countSuccess++;
         showSuccess();
@@ -655,9 +680,66 @@ window.onload = function () {
 
             }
 
-
         }
 
+    }
+
+    function backToDefaultFrame() {
+
+        for (i = 0; i < borda.length; i++) {
+            borda[i].style.opacity = '0.0';
+        }
+        icTake.style.opacity = '1.0';
+        spin.style.display = 'none';
+        stopProcess();
+        maskDefault.style.display = 'block';
+
+    }
+
+
+
+    function validatePerformance() {
+
+        // Calcula a diferença entre as datas de entrada do intervalo em segundos, para ter ciência se a aplicação está travando. 
+        var currentTime = new Date();
+
+        if (oldCurrentTime == null) {
+            oldCurrentTime = currentTime;
+        } else {
+            var dif = Math.abs((currentTime.getTime() - oldCurrentTime.getTime()) / 1000);
+            // console.log(dif);
+            oldCurrentTime = currentTime;
+
+            //  lbIlu.innerText = dif;
+
+            if (dif > 0.830) {
+
+                countToOldFrame++;
+
+                if (countToOldFrame > 3) {
+
+                    if (!isShowAlertToComeBack) {
+                        isRunning = false;
+                        isShowAlertToComeBack = true;
+
+                        /*$('#modalFrame .modal-body').html('Notamos que o seu aparelho está com dificuldade em processar este frame. Iremos retornar ao frame antigo.');
+                        $('#modalFrame').modal({ backdrop: 'static', keyboard: false });
+                        $('#modalFrame').modal('show');
+                        $('#btnCloseAlert').on('click', function () {
+                            $('#modalFrame').modal('hide');
+                            spin.style.display = 'none';
+                            stopProcess();
+                        })*/
+
+                        countToOldFrame = 0;
+                        backToDefaultFrame();
+
+                    }
+                }
+
+            }
+
+        }
 
     }
 
@@ -701,7 +783,6 @@ window.onload = function () {
     }
 
     function showBase64Label() {
-
         lbStatus.innerText = "O base64 foi gerado no console";
     }
 
@@ -802,8 +883,8 @@ window.onload = function () {
                 ctx.drawImage(img, 0, 0, width, height);
 
                 var base64 = canvas.toDataURL("image/jpeg");
-                
-                onSuccessCapture(base64);
+
+                onSuccessCaptureAtFrame(base64);
 
             }
 

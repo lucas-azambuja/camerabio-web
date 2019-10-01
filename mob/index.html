@@ -24,7 +24,18 @@
 
 <body>
 
-  <img id="icTake" class="take" style="opacity: 0;" src="img/icon_take_pic.png" onclick="capture()" />
+    <div id="deviceRotated" class="card max-height-invertido max-width-invertido" style="display: none">
+        <div class="card-header">
+            <img src="../../Resources/img/app/logo-min.svg" style="height: 22px;" id="logo_mobile2">
+        </div>
+        <div class="card-body" style="text-align: center">
+            <h5 class="card-title" style="margin-top: 15px; margin-bottom: 1.4em;">Rotacione o celular!</h5>
+            <%--<p class="card-text">Para garantir a melhor experiência, utilize o celular de 'pé'.</p>--%>
+
+            <img src="../../Resources/img/app/rotate-phone.png" style="width: 220px" />
+        </div>
+    </div>
+
   <div id="boxCamera" class="boxCamera max-width max-height">
 
     <video id="video" class="video max-width" autoplay muted playsinline></video>
@@ -37,9 +48,12 @@
     <div id="lbStatus" class="status" style="text-align: center;  min-width: 100px;"></div>
     <div id="lbIlu" class="status" style="text-align: center; width: 100vw; color: greenyellow;"></div>
     <div id="lbCountdown" class="countdown"></div>
-    <img id="maskDefault" class="maskdefault" src="img/land_frame.png" />
+    
+    <img id="maskDefault" class="maskdefault" src="img/faceframe_sms.png" />
 
   </div>
+
+  <img id="icTake" class="take" style="opacity: 0;" src="img/icon_take_pic.png" onclick="capture()" />
 
   <div class="spinback" id="spin">
     <div class="sk-folding-cube">
@@ -55,7 +69,7 @@
 <script>
   function ready() {
     // quando esta função correr o DOM está acessível
-    
+
     onSuccessCaptureAtFrame = onSuccessCapture;
 
     function onSuccessCapture(base64) {
@@ -63,7 +77,7 @@
     }
 
     function onFailedCapture(err) {
-
+      console.log(err);
     }
   
   }
