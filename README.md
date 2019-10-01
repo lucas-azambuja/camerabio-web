@@ -17,7 +17,7 @@ A instalação e implementação de nossa ferramente é muito simples e em pouco
 - Vamos fornecer um caminho de pasta para o carregamento de nossos arquivos de modelos. Para isto, abra o arquivo frame.js e procure pela linha:
 
 ```
-  faceapi.nets.tinyFaceDetector.loadFromUri('/mob/models'),
+  faceapi.nets.tinyFaceDetector.loadFromUri('{SEU_CAMINHO_DE_PASTAS_AQUI}/mob/models'),
 ````
  altere de acordo com a necessidade. Geralmente já funciona da forma demostrada abaixo:
 
