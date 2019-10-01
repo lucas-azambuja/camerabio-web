@@ -1,6 +1,6 @@
 # CameraBio Web
 
-Este projeto visa facilitar a implementação do frame de captura biométrica via JavaScript. 
+Este projeto visa facilitar a implementação do frame de captura biométrica via JavaScript PURO. 
 
 ## Começando
 
