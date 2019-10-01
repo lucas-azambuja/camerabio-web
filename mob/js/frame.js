@@ -61,6 +61,8 @@ var oldCurrentTime;
 var isShowAlertToComeBack = false;
 var countToOldFrame = 0;
 
+var isLandscape = false;
+
 function detectar_mobile() {
     if (navigator.userAgent.match(/Android/i)
         || navigator.userAgent.match(/webOS/i)
@@ -110,18 +112,37 @@ window.onload = function () {
     window.addEventListener("orientationchange", function () {
 
         if ((screen.orientation != null ? screen.orientation.angle : Math.abs(window.orientation)) != 0) {
+           
             // Landscape
-
+            isLandscape = true;
             stopCountdown();
+            icTake.style.opacity = '0.0';
             deviceRotated.style.display = 'block';
+            hiddenBorders();
 
         } else {
+
             // Portrait
+            isLandscape = false;
+            icTake.style.opacity = '1.0';
+            deviceRotated.style.display = 'none';
+            showBorders();
 
         }
 
     });
 
+    function showBorders(){
+        for (i = 0; i < borda.length; i++) {
+            borda[i].style.opacity = '1.0';
+        }
+    }
+
+    function hiddenBorders(){
+        for (i = 0; i < borda.length; i++) {
+            borda[i].style.opacity = '0.0';
+        }
+    }
 
     function stopCountdown() {
 
@@ -268,6 +289,10 @@ window.onload = function () {
         }
 
         intervalVideo = setInterval(async function () {
+
+            if(isLandscape) {
+                return;
+            }
 
             if (isRunning) {
 
