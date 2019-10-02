@@ -1,6 +1,6 @@
 # CameraBio Web
 
-Este projeto visa facilitar a implementação do frame de captura biométrica via JavaScript PURO. 
+Este projeto visa facilitar a implementação do frame de captura biométrica via JavaScript PURO. Ajudando no melhor enquadramento para captura e otimizando as imagens antes de serem enviadas ao nosso motor de biometria.  
 
 ## Começando
 
@@ -14,15 +14,33 @@ A instalação e implementação de nossa ferramente é muito simples e em pouco
 - Escolha uma das versões que deseja implementar. 
   - web: para landscape e indicado para e dashboards. 
   - mob: para frame adaptado a dispositivos móveis.
-- Vamos fornecer um caminho de pasta para o carregamento de nossos arquivos de modelos. Para isto, abra o arquivo frame.js e procure pela linha:
+- Forneça um caminho de pasta para o carregamento de nossos arquivos de modelos. Para isto, abra o arquivo frame.js e procure pela linha:
 
-```
+```javascript
   faceapi.nets.tinyFaceDetector.loadFromUri('{SEU_CAMINHO_DE_PASTAS_AQUI}/mob/models'),
 ````
- altere de acordo com a necessidade. Geralmente já funciona da forma demostrada abaixo:
+ altere de acordo com a necessidade. Geralmente já funciona da forma padrão:
+ ```
+  faceapi.nets.tinyFaceDetector.loadFromUri('../mob/models'),
+```
 
 Pronto! O seu projeto já está pronto para o uso de nossa ferramenta. 
 
+### Manuseio
+
+Para manipular o base64 da imagem capturada, adicione ao seu arquivo os métodos:
+
+  ```
+    function onSuccessCapture(base64) {
+      console.log(base64);
+    }
+
+    function onFailedCapture(err) {
+      console.log(err);
+    }
+```
+ - Deixamos exemplificados a implementação no arquivo index.html
+ 
 
 ## DEMO - Dispositivo móvel
 
