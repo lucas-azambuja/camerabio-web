@@ -1,6 +1,6 @@
 # CameraBio Web
 
-Este projeto visa facilitar a implementação do frame de captura biométrica via JavaScript PURO. Ajudando no melhor enquadramento para captura e otimizando as imagens antes de serem enviadas ao nosso motor de biometria.  
+Este projeto visa facilitar a implementação do frame de captura biométrica via JavaScript PURO. Ajudando no melhor enquadramento para captura e otimizando as imagens antes de serem enviadas ao motor de biometria.  
 
 ## Começando
 
@@ -45,6 +45,10 @@ Para manipular o base64 da imagem capturada, adicione ao seu arquivo os métodos
 ## DEMO - Dispositivo móvel
 
 * [Clique aqui para abrir a demonstração](https://crediariohomolog.acesso.io/camerabio-web/mob/)
+
+## DEMO - WebCam
+
+* [Clique aqui para abrir a demonstração](https://crediariohomolog.acesso.io/camerabio-web/web/)
 
 ## Construido com
 
