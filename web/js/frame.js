@@ -18,7 +18,7 @@ var intervalVideo;
 
 var hasCaptured = false;
 
-var isMobile;
+var isMobile = detectar_mobile();
 
 var countNoFace = 0;
 var countSuccess = 0;
@@ -27,8 +27,11 @@ var countError = 0;
 
 var showLog = false;
 
+/** Delegates variable region */
+var onSuccessCaptureAtFrame;
+var onFailedCaptureAtFrame;
+/** End region */
 
-isMobile = detectar_mobile();
 
 function detectar_mobile() {
     if (navigator.userAgent.match(/Android/i)
@@ -49,12 +52,12 @@ function detectar_mobile() {
 
 window.onload = function () {
 
-    
-if (isMobile) {
-    document.body.classList.add("body-mob");
-} else {
-    document.body.classList.add("body-web");
-}
+
+    if (isMobile) {
+        document.body.classList.add("body-mob");
+    } else {
+        document.body.classList.add("body-web");
+    }
 
     var box = document.getElementById('boxCamera');
     var borda = document.getElementById('borda');
@@ -64,12 +67,6 @@ if (isMobile) {
     var maskDefault = document.getElementById('maskDefault');
     var lbIlu = document.getElementById('lbIlu');
     var video = document.getElementById('video');
-
-    var isValid = webgl_support();
-    console.log(isValid);
-
-    var isValid2 = webgl_detect();
-    console.log(isValid2);
 
     Promise.all([
         faceapi.nets.tinyFaceDetector.loadFromUri('../web/models'),
@@ -183,7 +180,7 @@ if (isMobile) {
         intervalVideo = setInterval(async function () {
 
 
-           // runImage();
+            // runImage();
 
             if (isAllow) {
 
@@ -402,7 +399,6 @@ if (isMobile) {
         }
 
 
-
         // Verifico a centralização vertical da face a partir do eixo x. left: 1/4 right: 3/4 
         if (boxSideTop < (screenHeightWEB / 4)) {
             showError(CENTER_FACE)
@@ -413,9 +409,6 @@ if (isMobile) {
             console.log("VERTICAL TOPO - OKAY");
         }
 
-
-        console.log("(boxSideBottom): " + boxSideBottom);
-        console.log("  screenHeightWEB  " + screenHeightWEB);
 
         if (boxSideBottom > screenHeightWEB) {
             showError(CENTER_FACE)
@@ -608,10 +601,9 @@ if (isMobile) {
 
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
-        canvas.getContext('2d').drawImage(video, 100, 100, 800, 600, 0,0,1280,720);
+        canvas.getContext('2d').drawImage(video, 100, 100, 800, 600, 0, 0, 1280, 720);
 
         getImageLightness(canvas.toDataURL('image/jpeg'), function (brightness) {
-            console.log(brightness);
             lbIlu.innerText = brightness;
         });
 
@@ -621,32 +613,14 @@ if (isMobile) {
 
     function capture() {
         const canvas = document.createElement('canvas');
-        //const img = document.createElement('img');
 
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
         canvas.getContext('2d').drawImage(video, 0, 0);
-        // Other browsers will fall back to image/png
-        // img.src = canvas.toDataURL('image/jpeg');
-        //  saveBase64AsFile(canvas.toDataURL('image/jpeg', 0.8), "imageSaved")
-        // imgPreview.src = canvas.toDataURL('image/jpeg', 0.8);
-        //imgPreview.style.display = 'inline-block';
-        //hasCaptured = true;
-        //stopStream();
+
 
         var base64 = canvas.toDataURL('image/jpeg', 1.0);
-        console.log(base64);
-
-        //var blob = new Blob([base64], {type: "text/plain;charset=utf-8"});
-        //  saveAs(blob, "base64.txt");
-
-        var data = new FormData();
-        data.append("data", "the_text_you_want_to_save");
-        var xhr = (window.XMLHttpRequest) ? new XMLHttpRequest() : new activeXObject("Microsoft.XMLHTTP");
-        xhr.open('post', '../saveFile.php', true);
-        xhr.send(data);
-
-        return base64;
+        onSuccessCaptureAtFrame(base64);
 
     }
 

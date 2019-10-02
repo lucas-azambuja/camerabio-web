@@ -43,5 +43,37 @@
   </div>
 </body>
 
+<script>
+
+    function ready() {
+      
+      onSuccessCaptureAtFrame = onSuccessCapture;
+  
+      function onSuccessCapture(base64) {
+        console.log(base64);
+      }
+  
+      function onFailedCapture(err) {
+        console.log(err);
+      }
+  
+  
+    }
+  
+    function completed() {
+      document.removeEventListener("DOMContentLoaded", completed);
+      window.removeEventListener("load", completed);
+      ready();
+    }
+  
+    if (document.readyState === "complete" ||
+      (document.readyState !== "loading")) {
+      ready(); // está pronto!
+    } else { // ainda não está pronto...
+      document.addEventListener("DOMContentLoaded", completed);
+      window.addEventListener("load", completed);
+    }
+  </script>
+
 
 </html>
