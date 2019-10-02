@@ -1,14 +1,3 @@
-var iImageIntro = 0;
-
-var intro_one = new Image();
-intro_one.src = "intro_one.svg";
-var intro_two = new Image();
-intro_two.src = "intro_two.svg";
-var intro_three = new Image();
-intro_three.src = "intro_three.svg";
-var intro_four = new Image();
-intro_four.src = "intro_four.svg";
-
 const CENTER_FACE = "Centralize o rosto"
 const PULL_FACE = "Aproxime o rosto"
 const PUSH_FACE = "Afaste o rosto"
@@ -74,35 +63,6 @@ if (isMobile) {
     var icTakeWeb = document.getElementById('icTakeWeb');
     var maskDefault = document.getElementById('maskDefault');
     var lbIlu = document.getElementById('lbIlu');
-
-    if (isMobile) {
-
-        var imgPreview = document.getElementById('imgPreview');
-        imgPreview.src = intro_one.src;
-
-        imgPreview.onclick = function () { nextIntro() };
-
-        function nextIntro() {
-
-            if (iImageIntro >= 3) {
-                document.getElementById("divBackInst").style.display = 'none';
-                return;
-            }
-
-            if (iImageIntro == 0) {
-                imgPreview.src = intro_two.src;
-            } else if (iImageIntro == 1) {
-                imgPreview.src = intro_three.src;
-            } else if (iImageIntro == 2) {
-                imgPreview.src = intro_four.src;
-            }
-
-            iImageIntro++;
-
-        }
-
-    }
-
     var video = document.getElementById('video');
 
     var isValid = webgl_support();
@@ -112,7 +72,7 @@ if (isMobile) {
     console.log(isValid2);
 
     Promise.all([
-        faceapi.nets.tinyFaceDetector.loadFromUri('../models'),
+        faceapi.nets.tinyFaceDetector.loadFromUri('../web/models'),
         // faceapi.nets.faceRecognitionNet.loadFromUri('/models'),
     ]).then(startVideo)
 
