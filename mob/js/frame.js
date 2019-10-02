@@ -1,65 +1,81 @@
-var iImageIntro = 0;
+/** 
+ * Class: frame.js
+ * Author: Matheus Domingos
+ * Company: Acesso Digital 
+ * Created At: 04/06/2019
+ * Description:  This class manages the processing of the face-api library according to AccessBio's frame capture parameters.
+*/
 
-
+/** Constant variables to define messages to show of screen */
 const CENTER_FACE = "Centralize o rosto"
 const PULL_FACE = "Aproxime o rosto"
 const PUSH_FACE = "Afaste o rosto"
 const DARK_FACE = "Ambiente escuro"
 const LIGHT_FACE = "Ambiente muito claro"
+/** End region */
 
+/** Constant variables to define processing time in the face-api */
 const ONE_SECOND = 1000;
 const HALF_SECOND = 500;
+/** End region */
 
 const screenWidth = screen.width;
 const screenHeight = screen.height;
-
 var screenWidthWEB;
 var screenHeightWEB;
 
 // Indicates whether a face is valid or not 
 var detectFace = false;
 
+/** Variables to manage and control countdown to take picture */
 var countdown = 3;
 var isCountdown = false;
 var intervalCountdown;
+/** End region */
 
+
+/** Variable to create interval assync to manage face-api process */
 var intervalVideo;
 
-var hasCaptured = false;
-
 // Indicates whether the device is mobile or not
-var isMobile;
-isMobile = detectar_mobile();
+var isMobile = detectar_mobile();
 
-// Metrics to change border color
+/** Variables to manage metrics to change border color */ 
 const RULER = 2;
 var countNoFace = 0;
 var countSuccess = 0;
 var countError = 0;
+/** End region */
 
-// Indicates whether logs will be displayed
+/** Variable to indicates whether logs will be displayed */ 
 var showLog = false;
+/** End region */
 
 var capture;
 
+/** Variable to indicates whether proccess of face-api is running or not. */ 
 var isRunning = true;
+/** End region */
 
-// Methods of another class - Selfie.aspx
-
-var isCaptureBackground;
-
-
+/** Variable to indicates whether face is center and validated. */ 
 var isEnableCapture = false;
+/** End region */
 
+/** Variables to manage and control lighting of picture */
 var isValidateLight;
-
 var MINIMUM_BRIGHTNESS = 80;
+/** End region */
 
+/** Delegates variable region */
 var onSuccessCaptureAtFrame;
+var onFailedCaptureAtFrame;
+/** End region */
 
+/** Variables to manage performance and availability of new frame */
 var oldCurrentTime;
 var isShowAlertToComeBack = false;
 var countToOldFrame = 0;
+/** End region */
 
 var isLandscape = false;
 
@@ -653,7 +669,6 @@ window.onload = function () {
                     icTakeWeb.style.opacity = "1";
                 }
 
-                //  if (!hasCaptured) {
                 if (!isCountdown) {
                     isCountdown = true;
 
@@ -667,17 +682,8 @@ window.onload = function () {
 
                             lbCountdown.innerText = countdown;
 
-
-                            if (countdown == 2) {
-                                isCaptureBackground = true;
-                                capture();
-                            }
-
                             if (countdown == 0) {
 
-                                isCaptureBackground = false;
-
-                                hasCaptured = true;
                                 //  isCountdown = false;
                                 lbCountdown.innerText = 'OK';
 
