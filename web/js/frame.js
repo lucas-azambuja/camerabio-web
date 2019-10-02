@@ -53,6 +53,19 @@ function detectar_mobile() {
 window.onload = function () {
 
 
+    navigator.getMedia = (navigator.getUserMedia || // use the proper vendor prefix
+        navigator.webkitGetUserMedia ||
+        navigator.mozGetUserMedia ||
+        navigator.msGetUserMedia);
+
+    navigator.getMedia({ video: true }, function () {
+
+    }, function () {
+        alert("Câmera não identificada ou não autorizada.")
+        return;
+    });
+
+
     if (isMobile) {
         document.body.classList.add("body-mob");
     } else {
@@ -161,6 +174,8 @@ window.onload = function () {
     }
 
     video.addEventListener('play', () => {
+
+        borda.style.visibility = 'visible';
 
         if (isMobile) {
             borda.style.height = (screen.height - 10) + 'px';

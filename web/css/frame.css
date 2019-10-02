@@ -98,7 +98,7 @@ canvas {
 }
 
 .body-web #boxCamera .borda {
-  visibility: visible;
+  visibility: hidden;
   z-index: 999;
   position: absolute;
   width: calc(100% - 10px);
