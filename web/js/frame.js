@@ -10,9 +10,13 @@ var screenHeightWEB;
 
 var detectFace = false;
 
+/** Variables to manage and control countdown to take picture */
 var countdown = 3;
 var isCountdown = false;
-var intervar;
+var intervalCountdown;
+/** End region */
+
+
 
 var intervalVideo;
 
@@ -30,6 +34,12 @@ var showLog = false;
 /** Delegates variable region */
 var onSuccessCaptureAtFrame;
 var onFailedCaptureAtFrame;
+/** End region */
+
+/** Variables to manage performance and availability of new frame */
+var oldCurrentTime;
+var isShowAlertToComeBack = false;
+var countToOldFrame = 0;
 /** End region */
 
 
@@ -75,7 +85,6 @@ window.onload = function () {
     var box = document.getElementById('boxCamera');
     var borda = document.getElementById('borda');
     var lbCountdown = document.getElementById('lbCountdown');
-    var icTake = document.getElementById('icTake');
     var icTakeWeb = document.getElementById('icTakeWeb');
     var maskDefault = document.getElementById('maskDefault');
     var lbIlu = document.getElementById('lbIlu');
@@ -201,6 +210,8 @@ window.onload = function () {
 
                 try {
                     faceapi.detectSingleFace(video, new faceapi.TinyFaceDetectorOptions({ inputSize: 160, scoreThreshold: 0.3 })).then(detection => {
+
+                        validatePerformance();
 
                         isAllow = true;
                         if (detection) {
@@ -442,7 +453,7 @@ window.onload = function () {
     function showNeutral() {
         countdown = 3;
         lbCountdown.innerText = countdown;
-        clearInterval(intervar);
+        clearInterval(intervalCountdown);
         lbCountdown.style.display = 'none';
         isCountdown = false;
         countSuccess = 0;
@@ -458,6 +469,10 @@ window.onload = function () {
 
     function showError(message) {
 
+        if(isShowAlertToComeBack) {
+            return;
+        }
+
         //countError++;
         // if (countError > 3) {
 
@@ -465,7 +480,7 @@ window.onload = function () {
         countNoFace = 0;
         countdown = 3;
         lbCountdown.innerText = countdown;
-        clearInterval(intervar);
+        clearInterval(intervalCountdown);
         lbCountdown.style.display = 'none';
         isCountdown = false;
         countSuccess = 0;
@@ -501,7 +516,7 @@ window.onload = function () {
 
             setTimeout(function () {
 
-                intervar = setInterval(async () => {
+                intervalCountdown = setInterval(async () => {
 
                     console.log(countdown);
                     countdown--;
@@ -520,7 +535,7 @@ window.onload = function () {
 
                             }, 1000);
                             countdown = 3;
-                            clearInterval(intervar);
+                            clearInterval(intervalCountdown);
 
                             // Gerando o base64 no console apenas na web.
                             if (!isMobile) {
@@ -539,6 +554,64 @@ window.onload = function () {
 
 
     }
+
+
+    function stopProcess() {
+        oldCurrentTime = null;
+        isRunning = false;
+        showNeutral();
+        clearInterval(intervalCountdown);
+        clearInterval(intervalVideo);
+    }
+
+
+    function backToDefaultFrame() {
+
+        stopProcess();
+        lbStatus.style.visibility = 'hidden';
+        borda.style.visibility = 'hidden';
+        icTakeWeb.style.opacity = '1.0';
+        maskDefault.style.display = 'block';
+
+    }
+
+
+    function validatePerformance() {
+
+        // Calcula a diferença entre as datas de entrada do intervalo em segundos, para ter ciência se a aplicação está travando. 
+        var currentTime = new Date();
+
+        if (oldCurrentTime == null) {
+            oldCurrentTime = currentTime;
+        } else {
+            var dif = Math.abs((currentTime.getTime() - oldCurrentTime.getTime()) / 1000);
+             console.log(dif);
+            oldCurrentTime = currentTime;
+
+            //  lbIlu.innerText = dif;
+
+            if (dif > 0.830) {
+
+                countToOldFrame++;
+
+                if (countToOldFrame > 3) {
+
+                    if (!isShowAlertToComeBack) {
+                        isRunning = false;
+                        isShowAlertToComeBack = true;
+                        countToOldFrame = 0;
+                        backToDefaultFrame();
+
+                    }
+                }
+
+            }
+
+        }
+
+    }
+
+
 
     function webgl_support() {
         try {

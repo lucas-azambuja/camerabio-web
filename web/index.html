@@ -23,13 +23,11 @@
 </head>
 
 <body>
-  
+
   <div id="divBackInst" class="backInst">
-    <img id="imgPreview" class="preview" src=""/>
+    <img id="imgPreview" class="preview" src="" />
   </div>
-  
-  <img id="icTake" class="take" style="opacity: 0;"  src="img/icon_take_pic.png"  onclick="capture()"/>
-  
+
   <div id="boxCamera" class="boxCamera">
     <video id="video" class="video" autoplay muted playsinline></video>
 
@@ -37,43 +35,45 @@
     <div id="lbStatus" class="status" style="text-align: center;  width: 100vw;"></div>
     <div id="lbIlu" class="status" style="text-align: center;  width: 100vw; color:greenyellow;"></div>
     <div id="lbCountdown" class="countdown"></div>
-    <img id="icTakeWeb" class="takeWeb" style="opacity: 0;"  src="img/icon_take_pic.png"  onclick="capture()"/>
-    <img  id="maskDefault" class="maskdefault"  src="img/land_frame.png" />
+    <img id="maskDefault" class="maskdefault" src="img/land_frame.png" />
+    <img id="icTakeWeb" class="takeWeb" style="opacity: 0;" src="img/icon_take_pic.png" onclick="capture()" />
+
 
   </div>
 </body>
 
 <script>
 
-    function ready() {
-      
-      onSuccessCaptureAtFrame = onSuccessCapture;
-  
-      function onSuccessCapture(base64) {
-        console.log(base64);
-      }
-  
-      function onFailedCapture(err) {
-        console.log(err);
-      }
-  
-  
+  function ready() {
+
+    onSuccessCaptureAtFrame = onSuccessCapture;
+
+    function onSuccessCapture(base64) {
+      console.log(base64);
     }
-  
-    function completed() {
-      document.removeEventListener("DOMContentLoaded", completed);
-      window.removeEventListener("load", completed);
-      ready();
+
+    function onFailedCapture(err) {
+      console.log(err);
     }
-  
-    if (document.readyState === "complete" ||
-      (document.readyState !== "loading")) {
-      ready(); // está pronto!
-    } else { // ainda não está pronto...
-      document.addEventListener("DOMContentLoaded", completed);
-      window.addEventListener("load", completed);
-    }
-  </script>
+
+
+  }
+
+  function completed() {
+    document.removeEventListener("DOMContentLoaded", completed);
+    window.removeEventListener("load", completed);
+    ready();
+  }
+
+  if (document.readyState === "complete" ||
+    (document.readyState !== "loading")) {
+    ready(); // está pronto!
+  } else { // ainda não está pronto...
+    document.addEventListener("DOMContentLoaded", completed);
+    window.addEventListener("load", completed);
+  }
+
+</script>
 
 
 </html>

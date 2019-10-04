@@ -40,24 +40,24 @@ var intervalVideo;
 // Indicates whether the device is mobile or not
 var isMobile = detectar_mobile();
 
-/** Variables to manage metrics to change border color */ 
+/** Variables to manage metrics to change border color */
 const RULER = 2;
 var countNoFace = 0;
 var countSuccess = 0;
 var countError = 0;
 /** End region */
 
-/** Variable to indicates whether logs will be displayed */ 
+/** Variable to indicates whether logs will be displayed */
 var showLog = false;
 /** End region */
 
 var capture;
 
-/** Variable to indicates whether proccess of face-api is running or not. */ 
+/** Variable to indicates whether proccess of face-api is running or not. */
 var isRunning = true;
 /** End region */
 
-/** Variable to indicates whether face is center and validated. */ 
+/** Variable to indicates whether face is center and validated. */
 var isEnableCapture = false;
 /** End region */
 
@@ -111,13 +111,9 @@ window.onload = function () {
     var icTakeWeb = document.getElementById('icTakeWeb');
     var maskDefault = document.getElementById('maskDefault');
     var lbIlu = document.getElementById('lbIlu');
-    var btnCapture = document.getElementById('btnCapture');
-    var btnCamera = document.getElementById('btnCamera');
     var video = document.getElementById('video');
     var spin = document.getElementById('spin');
     var deviceRotated = document.getElementById('deviceRotated');
-
-    // btnCamera.style.bottom = '20px';
 
     Promise.all([
         faceapi.nets.tinyFaceDetector.loadFromUri('/mob/models'),
@@ -128,7 +124,7 @@ window.onload = function () {
     window.addEventListener("orientationchange", function () {
 
         if ((screen.orientation != null ? screen.orientation.angle : Math.abs(window.orientation)) != 0) {
-           
+
             // Landscape
             isLandscape = true;
             stopCountdown();
@@ -148,13 +144,13 @@ window.onload = function () {
 
     });
 
-    function showBorders(){
+    function showBorders() {
         for (i = 0; i < borda.length; i++) {
             borda[i].style.opacity = '1.0';
         }
     }
 
-    function hiddenBorders(){
+    function hiddenBorders() {
         for (i = 0; i < borda.length; i++) {
             borda[i].style.opacity = '0.0';
         }
@@ -306,7 +302,7 @@ window.onload = function () {
 
         intervalVideo = setInterval(async function () {
 
-            if(isLandscape) {
+            if (isLandscape) {
                 return;
             }
 
@@ -375,7 +371,7 @@ window.onload = function () {
     }
 
     function stopProcess() {
-        oldCurrentTime = null; 
+        oldCurrentTime = null;
         isRunning = false;
         showNeutral();
         clearInterval(intervalCountdown);

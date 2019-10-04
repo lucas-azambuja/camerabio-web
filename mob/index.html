@@ -61,9 +61,9 @@
 </body>
 
 <script>
-  function ready() {
-    // quando esta função correr o DOM está acessível
 
+  function ready() {
+    
     onSuccessCaptureAtFrame = onSuccessCapture;
 
     function onSuccessCapture(base64) {
@@ -73,6 +73,7 @@
     function onFailedCapture(err) {
       console.log(err);
     }
+
 
   }
 
