@@ -37,9 +37,11 @@ Pronto! O seu projeto já está pronto para o uso de nossa ferramenta.
 
 ### Manuseio
 
-Para manipular o base64 da imagem capturada, adicione ao seu arquivo os métodos:
+Para manipular o base64 da imagem capturada, adicione ao seu arquivo os métodos e aponte desta forma:
 
   ```
+    onSuccessCaptureAtFrame = onSuccessCapture;
+
     function onSuccessCapture(base64) {
       console.log(base64);
     }
