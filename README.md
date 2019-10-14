@@ -29,7 +29,7 @@ A instalação e implementação de nossa ferramente é muito simples e em pouco
   faceapi.nets.tinyFaceDetector.loadFromUri('{SEU_CAMINHO_DE_PASTAS_AQUI}/mob/models'),
 ````
  altere de acordo com a necessidade. Geralmente já funciona da forma padrão:
- ```
+ ```javascript
   faceapi.nets.tinyFaceDetector.loadFromUri('../mob/models'),
 ```
 
@@ -39,7 +39,7 @@ Pronto! O seu projeto já está pronto para o uso de nossa ferramenta.
 
 Para manipular o base64 da imagem capturada, adicione ao seu arquivo os métodos e aponte desta forma:
 
-  ```
+  ```javascript
     onSuccessCaptureAtFrame = onSuccessCapture;
 
     function onSuccessCapture(base64) {
