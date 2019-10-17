@@ -699,18 +699,48 @@ window.onload = function () {
 
     }
 
-    function capture() {
+ function capture() {
+        
         const canvas = document.createElement('canvas');
 
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
         canvas.getContext('2d').drawImage(video, 0, 0);
 
+        var img = document.createElement("img");
+        img.src = canvas.toDataURL('image/jpeg', 1.0);;
+        img.style.display = "none";
+        document.body.appendChild(img);
 
-        var base64 = canvas.toDataURL('image/jpeg', 1.0);
+
+        img.onload = function () {
+
+            var MAX_WIDTH = 1024;
+            var MAX_HEIGHT = 768;
+            var width = img.width;
+            var height = img.height;
+
+            if (width > height) {
+                if (width > MAX_WIDTH) {
+                    height *= MAX_WIDTH / width;
+                    width = MAX_WIDTH;
+                }else{
+                    height = MAX_HEIGHT;
+                    width = MAX_WIDTH;
+                }
+            } 
+
+            canvas.width = width;
+            canvas.height = height;
+            var ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0, width, height);
+
+        var base64 = canvas.toDataURL("image/jpeg");
         onSuccessCaptureAtFrame(base64);
+        }
 
     }
+
 
     function stopStream() {
 
