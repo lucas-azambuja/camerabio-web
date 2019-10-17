@@ -6,6 +6,15 @@ Este projeto visa facilitar a implementação do frame de captura biométrica vi
 
 Estas instruções farão com que você consiga implementar a câmera com engenharia biométrica pré-existente e obter/manipular os dados de retorno.
  
+Esta biblioteca utiliza os recursos nativos do HTML 5 e funciona apenas em browsers modernos.
+
+ ## Características
+- Roda no iOS 11 ou superior
+- Roda no Android 5.0 ou superior
+- Roda nativamente em navegadores modernos de PC's (Chrome, Firefox, Opera, Edge) para WEB e mobile indicamos Safari para iOS e Chrome para Android. 
+- Exibe um quadro azul ou vermelho, direcionando o usuário a posicionar melhor o rosto para a captura da foto, caso o browser do dispositivo não possua suporte, exibimos uma silhueta do rosto para indicar onde a pessoa deve posicionar a face durante a captura.
+- Permite utilizar a câmera frontal de dispositivos móveis
+ 
 ### Instalando
 
 A instalação e implementação de nossa ferramente é muito simples e em poucos passos o seu frame está pronto para ser utilizado. 
@@ -20,7 +29,7 @@ A instalação e implementação de nossa ferramente é muito simples e em pouco
   faceapi.nets.tinyFaceDetector.loadFromUri('{SEU_CAMINHO_DE_PASTAS_AQUI}/mob/models'),
 ````
  altere de acordo com a necessidade. Geralmente já funciona da forma padrão:
- ```
+ ```javascript
   faceapi.nets.tinyFaceDetector.loadFromUri('../mob/models'),
 ```
 
@@ -28,9 +37,11 @@ Pronto! O seu projeto já está pronto para o uso de nossa ferramenta.
 
 ### Manuseio
 
-Para manipular o base64 da imagem capturada, adicione ao seu arquivo os métodos:
+Para manipular o base64 da imagem capturada, adicione ao seu arquivo os métodos e aponte desta forma:
 
-  ```
+  ```javascript
+    onSuccessCaptureAtFrame = onSuccessCapture;
+
     function onSuccessCapture(base64) {
       console.log(base64);
     }
